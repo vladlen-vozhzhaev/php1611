@@ -2,7 +2,7 @@
     session_start();
     $email = $_POST['email'];
     $pass = $_POST['pass'];
-    $mysqli = new mysqli("localhost", "root", "", "php2211");
+    $mysqli = new mysqli("localhost", "root", "", "php1611");
     $result = $mysqli->query("SELECT * FROM `users` WHERE email = '$email' AND pass='$pass'");
     if($result->num_rows){
         $row = $result->fetch_assoc();
