@@ -57,13 +57,18 @@
 
             return $result;
         }
+
+        public static function f(){
+            return "Hello world";
+        }
     }
     $medKit = 50;
     $person4 = new Person("Igor", "Petrov", 70);
     $person3 = new Person("Ivan", "Ivanov", 35);
     $person2 = new Person("Olga", "Ivanov", 40, null, $person4);
     $person1 = new Person("Alex", "Ivanov", 10, $person2, $person3);
-    echo $person2->info();
+
+    echo Person::f();
     /*echo $person1->getHp()."<br>"; // 100
     $person1->setHp(-30);
     echo $person1->getHp()."<br>"; // 70

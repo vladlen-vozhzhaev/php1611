@@ -1,7 +1,7 @@
  <div class="container my-5">
         <h1 class="text-center my-3">Авторизация на сайте</h1>
         <div class="col-sm-5 mx-auto">
-            <form action="/php/handlerLogin.php" method="post">
+            <form action="/login" method="post">
                 <div class="mb-3">
                     <input name="email" type="email" class="form-control" placeholder="E-mail">
                 </div>

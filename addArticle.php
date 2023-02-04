@@ -1,6 +1,6 @@
 <div class="container my-3">
     <div class="col-sm-6 mx-auto">
-        <form action="/php/addArticle.php" method="post">
+        <form action="/addArticle" method="post">
             <div class="mb-3">
                 <input type="text" class="form-control" name="title" placeholder="Заголовок">
             </div>

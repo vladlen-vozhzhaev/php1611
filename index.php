@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli("localhost", "root", "", "php1611");
+$mysqli = new mysqli("localhost", "root", "", "php2211");
 $result = $mysqli->query("SELECT * FROM articles");
 $articles = "";
 while (($row = $result->fetch_assoc()) != null){

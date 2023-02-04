@@ -10,7 +10,7 @@
     let lastname = document.getElementById('lastname');
     let email = document.getElementById('email');
     let id = document.getElementById('id');
-    fetch('/php/getUserData.php')
+    fetch('/getUserData')
         .then(function (response){return response.json()})
         .then(function (result){
             console.log(result);
