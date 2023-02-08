@@ -21,8 +21,10 @@
     }else if($path[1] == "addArticle" and $method=="POST"){
         ArticleController::addArticle($_POST['title'], $_POST['content'], $_POST['author']);
     } else if($path[1] == ""){}
-    else if($path[1] == "article"){
-        $content = ArticleController::getArticle($path[2]);
+    else if($path[1] == "article" and $method=="GET"){
+        $content = file_get_contents('article.html');
+    }else if($path[1] == "article" and $method=="POST"){
+        exit(ArticleController::getArticle($path[2]));
     }else if($path[1] == "getUserData"){
         UserController::getUserData();
     }
