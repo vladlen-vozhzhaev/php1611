@@ -1,8 +1,15 @@
 <div class="container">
-
+    <h1 class="text-center" id="title"></h1>
+    <div id="content"></div>
+    <p class="my-3">Автор: <span id="author"></span></p>
+    <p><a href="" id="deleteBtn" class="btn btn-danger">удалить</a></p>
 </div>
 <script>
     let articleId = location.pathname.split('/')[2];
+    let title = document.getElementById("title");
+    let content = document.getElementById('content');
+    let author = document.getElementById('author');
+    let deleteBtn = document.getElementById('deleteBtn');
     let formData = new FormData();
     // Мы будем передавать ключ articleId со значение articleId = location.pathname.split('/')[2];
     formData.append("articleId", articleId);
@@ -12,5 +19,9 @@
     }).then(function (response){return response.json()})
         .then(function (result){
            console.log(result);
+           title.innerText = result.title;
+           content.innerText = result.content;
+           author.innerText = result.author;
+           deleteBtn.href = "/deleteArticle/"+result.id;
         });
 </script>

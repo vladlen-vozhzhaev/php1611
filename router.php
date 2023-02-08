@@ -1,7 +1,10 @@
 <?php
     session_start();
-    $requestURI = $_SERVER['REQUEST_URI'];
-    $method = $_SERVER['REQUEST_METHOD'];
+    // "/deleteArticle/2" -> $path = ["", "deleteArticle", "2"] -> if($path[1] == "deleteArticle"){выполняем инструкции удаления статьи}
+    // "/reg" -> $path = ["", "reg"] -> if($path[1] == "reg"){открывем страницу регистрации}
+    // "/login" -> $path = ["", "login"] -> if($path[1] == "login"){открываем страницу авторизации}
+    $requestURI = $_SERVER['REQUEST_URI']; // Получаем URI по которому запрошена страница
+    $method = $_SERVER['REQUEST_METHOD']; // Получаем метод запроса
     $path = explode('/', $requestURI);
     require_once('php/db.php');
     require_once('php/classes/UserController.php');
@@ -25,6 +28,8 @@
         $content = file_get_contents('article.html');
     }else if($path[1] == "article" and $method=="POST"){
         exit(ArticleController::getArticle($path[2]));
+    }else if($path[1] == "deleteArticle"){
+        //exit(ArticleController::deleteArticle());
     }else if($path[1] == "getUserData"){
         UserController::getUserData();
     }

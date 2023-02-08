@@ -11,4 +11,10 @@ class ArticleController{
         $row = $result->fetch_assoc();
         return json_encode($row);
     }
+
+    public static function deleteArticle($articleId){
+        global $mysqli; // Получаем доступ к переменной, которая отвечает за подключение к БД
+        $mysqli->query("DELETE FROM articles WHERE id=$articleId"); // Отправляем запрос на удаление к БД
+        header('Location: /'); // Переадресуем пользователя на главную страницу
+    }
 }
