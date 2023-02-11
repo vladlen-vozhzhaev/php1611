@@ -1,0 +1,38 @@
+<div class="container my-3">
+    <h1 class="text-center">Редактирование статьи</h1>
+    <div class="col-sm-6 mx-auto">
+        <form action="/updateArticle" method="post">
+            <input type="hidden" name="id" id="inputArticleId">
+            <div class="mb-3">
+                <input type="text" class="form-control" name="title" placeholder="Заголовок" id="title">
+            </div>
+            <div class="mb-3">
+                <textarea name="content" placeholder="Контент" class="form-control" id="content"></textarea>
+            </div>
+            <div class="mb-3">
+                <input name="author" type="text" class="form-control" placeholder="Автор" id="author">
+            </div>
+            <div class="mb-3">
+                <input type="submit" class="form-control btn btn-primary" value="Сохранить">
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // '/updateArticle/3'   '/article/'+articleId методом пост
+    let articleId = location.pathname.split('/')[2];
+    let title = document.getElementById('title');
+    let content = document.getElementById('content');
+    let author = document.getElementById('author');
+    let inputArticleId = document.getElementById('inputArticleId');
+    fetch('/article/'+articleId, {
+        method: "post"
+    }).then(function (response){return response.json()})
+        .then(function (result){
+            console.log(result);
+            title.value = result.title;
+            content.innerText = result.content;
+            author.value = result.author;
+            inputArticleId.value = result.id;
+        });
+</script>

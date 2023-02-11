@@ -28,12 +28,15 @@
         $content = file_get_contents('article.html');
     }else if($path[1] == "article" and $method=="POST"){
         exit(ArticleController::getArticle($path[2]));
-    }else if($path[1] == "deleteArticle"){
-        //exit(ArticleController::deleteArticle());
+    }else if($path[1] == "deleteArticle"){ // '/deleteArticle/2'
+        ArticleController::deleteArticle($path[2]); exit;
     }else if($path[1] == "getUserData"){
         UserController::getUserData();
-    }
-    else{
+    }else if($path[1] == "updateArticle" and $method=="GET"){
+        $content = file_get_contents('updateArticle.html');
+    }else if($path[1] == "updateArticle" and $method=="POST"){
+        ArticleController::updateArticle($_POST['id'], $_POST['title'], $_POST['content'], $_POST['author']);
+    }else{
         echo "Страница не найдена 404";
     }
     require_once('template.php');

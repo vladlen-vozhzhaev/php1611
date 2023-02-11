@@ -5,8 +5,8 @@
     <p><a href="" id="deleteBtn" class="btn btn-danger">удалить</a></p>
 </div>
 <script>
-    let articleId = location.pathname.split('/')[2];
-    let title = document.getElementById("title");
+    let articleId = location.pathname.split('/')[2]; // Получаем id статьи из URL
+    let title = document.getElementById("title"); //
     let content = document.getElementById('content');
     let author = document.getElementById('author');
     let deleteBtn = document.getElementById('deleteBtn');
