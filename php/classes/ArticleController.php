@@ -1,5 +1,15 @@
 <?php
 class ArticleController{
+    public static function getArticles(){
+        global $mysqli;
+        $result = $mysqli->query("SELECT * FROM articles");
+        $articles = "";
+        while (($row = $result->fetch_assoc()) != null){
+            $articles .= "<h4><a href='/article/".$row['id']."'>".$row['title']."</a></h4><p>".$row['content']."</p>";
+        }
+        return '<div class="container my-3">'. $articles. '</div>';
+    }
+
     public static function addArticle($title, $content, $author){
         global $mysqli;
         $mysqli->query("INSERT INTO articles (title, content, author) VALUES ('$title', '$content', '$author')");

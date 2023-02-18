@@ -11,49 +11,25 @@
     require_once('php/classes/ArticleController.php');
     require_once('php/classes/Route.php');
 
+    Route::get('/', function (){return ArticleController::getArticles();});
     Route::get('/reg', function (){return file_get_contents("reg.php");});
     Route::get('/login', function (){return file_get_contents('login.php');});
-    Route::get('/profile', function (){
-        if($_SESSION['id']){
-            return file_get_contents('profile.php');
-        }else{
-            header('Location: /login');
-        }
-    });
-    Route::get('/addArticle', function (){
-        if($_SESSION['id']){
-            return file_get_contents('addArticle.php');
-        }else{
-            header('Location: /login');
-        }
-    });
+    Route::get('/article', function (){return file_get_contents('article.html');});
+    Route::get("/getUsers", function (){UserController::getUsers();});
+    Route::get('/users', function (){return file_get_contents('users.html');});
     Route::post('/reg', function (){UserController::reg($_POST['name'], $_POST['lastname'], $_POST['email'], $_POST['pass']);});
     Route::post('/login', function (){UserController::login($_POST['email'], $_POST['pass']);});
-    Route::post('/addArticle', function (){ArticleController::addArticle($_POST['title'], $_POST['content'], $_POST['author']);});
+    Route::post('/article', function (){ArticleController::getArticle(null);});
 
-    if($path[1] == "article" and $method=="GET"){
-        $content = file_get_contents('article.html');
-    }else if($path[1] == "article" and $method=="POST"){
-        exit(ArticleController::getArticle($path[2]));
-    }else if($path[1] == "deleteArticle"){ // '/deleteArticle/2'
-        ArticleController::deleteArticle($path[2]); exit;
-    }else if($path[1] == "getUserData"){
-        UserController::getUserData();
-    }else if($path[1] == "updateArticle" and $method=="GET"){
-        if($_SESSION['id']){
-            $content = file_get_contents('updateArticle.html');
-        }else{
-            header('Location: /login');
-        }
-    }else if($path[1] == "updateArticle" and $method=="POST"){
-        ArticleController::updateArticle($_POST['id'], $_POST['title'], $_POST['content'], $_POST['author']);
-    }else if($path[1] == "getUsers" and $method=="GET"){
-        exit(UserController::getUsers());
-    }else if($path[1] == "users"){
-        $content = file_get_contents('users.html');
-    }else if($path[1] == "exit"){
-        UserController::logout();
+    if($_SESSION['id']){
+        Route::get('/profile', function (){return file_get_contents('profile.php');});
+        Route::get('/addArticle', function (){return file_get_contents('addArticle.php');});
+        Route::get('/deleteArticle', function (){ArticleController::deleteArticle(null);});
+        Route::get('/getUserData', function (){UserController::getUserData();});
+        Route::get('/updateArticle', function (){return file_get_contents('updateArticle.html');});
+        Route::get('/exit', function (){UserController::logout();});
+        Route::post('/addArticle', function (){ArticleController::addArticle($_POST['title'], $_POST['content'], $_POST['author']);});
+        Route::post('/updateArticle', function (){ArticleController::updateArticle($_POST['id'], $_POST['title'], $_POST['content'], $_POST['author']);});
     }else{
-        echo "Страница не найдена 404";
+        header('Location: /login');
     }
-    //require_once('template.php');
