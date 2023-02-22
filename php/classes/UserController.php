@@ -60,4 +60,13 @@ class UserController{
         session_destroy();
         header("Location: /");
     }
+    public static function uploadAvatar(){
+        $uploaddir = '/img/'; // <- это всего лишь строка
+        $uploadfile = $uploaddir.$_FILES['userfile']['name'];
+        move_uploaded_file($_FILES['userfile']["tmp_name"], $uploadfile);
+        global $mysqli;
+        $userId = $_SESSION['id'];
+        $mysqli->query("UPDATE `users` SET `img`='$uploadfile' WHERE id='$userId'");
+        header('Location: /profile');
+    }
 }

@@ -4,6 +4,10 @@
     <p>Фамиля: <span id="lastname"></span></p>
     <p>Email: <span id="email"></span></p>
     <p>ID: <span id="id"></span></p>
+    <form action="/uploadAvatar" enctype="multipart/form-data" method="post">
+        <input type="file" name="userfile">
+        <input type="submit">
+    </form>
 </div>
 <script>
     let name = document.getElementById('name');
