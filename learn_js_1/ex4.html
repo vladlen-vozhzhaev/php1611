@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="a">
+    <input type="text" id="b">
+    <button onclick="calc('+')">+</button>
+    <button onclick="calc('-')">-</button>
+    <button onclick="calc('*')">*</button>
+    <button onclick="calc('/')">/</button>
+    <script>
+        let a = document.getElementById('a');
+        let b = document.getElementById('b');
+        function calc(operator){
+            if(operator == "+") console.log((+a.value) + (+b.value));
+            else if (operator == "-") console.log(a.value-b.value);
+            else if (operator == "*") console.log(a.value*b.value)
+            else if (operator == "/") console.log(a.value/b.value);
+        }
+    </script>
+</body>
+</html>
