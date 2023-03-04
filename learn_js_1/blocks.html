@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #redBox, #blueBox, #limeBox, #yellowBox{
+            width: 150px;
+            height: 150px;
+            position: absolute;
+        }
+        #redBox{
+            background: red;
+            left: 0;
+            top: 0;
+        }
+        #blueBox{
+            background: blue;
+            left: 0;
+            bottom: 0;
+        }
+        #limeBox{
+            background: lime;
+            top: 0;
+            right: 0;
+        }
+        #yellowBox{
+            background: yellow;
+            bottom: 0;
+            right: 0;
+        }
+        .circle{
+            width: 100px;
+            height: 100px;
+            background: yellow;
+            border: 1px solid black;
+            border-radius: 50%;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="redBox" data-color="red"></div>
+    <div id="blueBox" data-color="blue"></div>
+    <div id="limeBox" data-color="lime"></div>
+    <div id="yellowBox" data-color="yellow"></div>
+    <script>
+        let circle = document.getElementById("circle");
+
+        let colors = ["red", "blue", "lime", "yellow"]; // массив цветов
+        // colors.length - кол-во элементов массива
+        for (let i = 0; i < 5; i++) {
+            renderCircle();
+        }
+        function renderCircle(){
+            let circle = document.createElement("div"); // Создаём тег <div>
+            circle.classList.add('circle'); // Назначаем CSS-класс .circle тегу
+            circle.style.top = getRandom(150, innerHeight-150)+"px";
+            circle.style.left = getRandom(150, innerWidth-150)+"px";
+            let circleColor = colors[getRandom(0, colors.length)];
+            circle.style.backgroundColor = circleColor; // задаём случайный цвет из массива colors
+            circle.onmousedown = function (event){
+                circle.style.top = event.pageY-50+"px";
+                circle.style.left = event.pageX-50+"px";
+                window.onmousemove = function (e){
+                    console.log("Сдвиг на точки X:"+e.pageX, "Y: "+e.pageY);
+                    circle.style.top = e.pageY-50+"px";
+                    circle.style.left = e.pageX-50+"px";
+                }
+                circle.onmouseup = function (ev){
+                    circle.hidden = true;
+                    let box = (document.elementFromPoint(ev.clientX, ev.clientY));
+                    /*
+                    * Сравниваем цвета, где
+                    * box.dataset.color - значение атрибута data-color квадрата
+                    * circleColor - выбранный из массива цвет кружка
+                    * === - строгое сравнение, == - тоже будет работать, но phpStorm подсвечивает и меня это бесит, поэтому ===
+                    * */
+                    if(box.dataset.color === circleColor){
+                        alert("Цвета совпали!"); // показ уведомления с текстом
+                    }else{
+                        alert("Цвета не совпали, попробуй ещё раз!"); // показ уведомления с текстом
+                        circle.hidden = false;
+                    }
+                    window.onmousemove = function (){return false;}
+                }
+            }
+            document.body.append(circle); // добавляем тег внутрь тега body
+        }
+
+        function getRandom(min, max){
+            return Math.floor(Math.random()*(max-min)+min);
+        }
+    </script>
+</body>
+</html>
