@@ -1,6 +1,6 @@
 <div class="container my-3">
     <div class="col-sm-9 mx-auto">
-        <form action="/addArticle" method="post">
+        <form onsubmit="sendForm(this); return false;" action="/addArticle" method="post">
             <div class="mb-3">
                 <input type="text" class="form-control" name="title" placeholder="Заголовок">
             </div>
@@ -27,6 +27,37 @@
     const editor = SUNEDITOR.create((document.getElementById('sample') || 'sample'),{
         lang: SUNEDITOR_LANG['ru'],
         width: '100%',
-        height: '400px'
+        height: '400px',
+        buttonList: [
+            ['undo', 'redo'],
+            ['font', 'fontSize', 'formatBlock'],
+            ['paragraphStyle', 'blockquote'],
+            ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+            ['fontColor', 'hiliteColor', 'textStyle'],
+            ['removeFormat'],
+            '/', // Line break
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['table', 'link', 'image', 'video', 'audio' /** ,'math' */], // You must add the 'katex' library at options to use the 'math' plugin.
+            /** ['imageGallery'] */ // You must add the "imageGalleryUrl".
+            ['fullScreen', 'showBlocks', 'codeView'],
+            ['preview', 'print'],
+            ['save', 'template'],
+            /** ['dir', 'dir_ltr', 'dir_rtl'] */ // "dir": Toggle text direction, "dir_ltr": Right to Left, "dir_rtl": Left to Right
+        ]
     });
+
+    function sendForm(form){
+        const formData = new FormData(form);
+        formData.append("content", editor.getContents());
+        fetch("/addArticle", {
+            method: "POST",
+            body: formData
+        }).then(response=>response.json())
+            .then(result=>{
+                if(result.result === "success"){
+                    location.href = "/";
+                }
+            })
+    }
 </script>

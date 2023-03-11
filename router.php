@@ -10,6 +10,7 @@
     require_once('php/classes/UserController.php');
     require_once('php/classes/ArticleController.php');
     require_once('php/classes/Route.php');
+    require_once('php/classes/simple_html_dom.php');
 
     Route::get('/', function (){return ArticleController::getArticles();});
     Route::get('/reg', function (){return file_get_contents("reg.php");});

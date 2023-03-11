@@ -12,8 +12,26 @@ class ArticleController{
 
     public static function addArticle($title, $content, $author){
         global $mysqli;
-        $mysqli->query("INSERT INTO articles (title, content, author) VALUES ('$title', '$content', '$author')");
-        header("Location: /");
+        $html = str_get_html($content);
+        $img = $html->find("img", 0);
+        $data = explode(",", $img->src);
+        $extension =  explode("/", explode(";",$data[0])[0])[1];
+        $fileName = "img/".microtime().".".$extension;
+        $ifp = fopen($fileName, 'wb');
+        fwrite( $ifp, base64_decode( $data[1] ) );
+        fclose( $ifp );
+        $img->src = "/".$fileName;
+        /*
+         * 1) Ищем все картинки img в переменной $content
+         * 2) Достаём из них значение атрибута src
+         * 3) Создаём и записываем файл из данных полученныз на 2 шаге
+         * 4) Формируем ссылку на этот файл
+         * 5) Сохраняем эту ссылку в src картинки
+         * 6) Сохраняем результат в БД
+         * */
+        $mysqli->query("INSERT INTO articles (title, content, author) VALUES ('$title', '$html', '$author')");
+        $response = json_encode(["result"=>"success"]);
+        exit($response);
     }
     public static function getArticle($articleId){
         global $mysqli;
