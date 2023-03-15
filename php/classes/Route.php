@@ -15,7 +15,7 @@ class Route{
         }
     }
 
-    public static function get($path, $callback){ // /article/{id}
+    public static function get($path, $callback, $title=""){ // /article/{id}
         $requestURI = $_SERVER['REQUEST_URI']; // Получаем URI по которому запрошена страница
         $paths = explode('/', $requestURI); // URI по которому проверяем (по нему и был запрос)
         $content = "";

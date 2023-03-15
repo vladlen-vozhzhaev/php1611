@@ -5,9 +5,24 @@ class ArticleController{
         $result = $mysqli->query("SELECT * FROM articles");
         $articles = "";
         while (($row = $result->fetch_assoc()) != null){
-            $articles .= "<h4><a href='/article/".$row['id']."'>".$row['title']."</a></h4><p>".$row['content']."</p>";
+            //$articles .= "<h4><a href='/article/".$row['id']."'>".$row['title']."</a></h4><p>".$row['content']."</p>";
+            $content = $row['content'];
+            $html = str_get_html($content);
+            $content = $html->plaintext;
+            $content = substr($content, 0, 90)."...";
+            $articles .= '
+                <div class="post-preview">
+                        <a href="/article/'.$row['id'].'">
+                            <h2 class="post-title">'.$row['title'].'</h2>
+                            <h3 class="post-subtitle">'.$content.'</h3>
+                        </a>
+                        <p class="post-meta">
+                            Автор: '.$row['author'].'
+                        </p>
+                </div>
+            ';
         }
-        return '<div class="container my-3">'. $articles. '</div>';
+        return $articles;
     }
 
     public static function addArticle($title, $content, $author){

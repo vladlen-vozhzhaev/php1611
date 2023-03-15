@@ -13,7 +13,7 @@
     require_once('php/classes/simple_html_dom.php');
 
     Route::get('/', function (){return ArticleController::getArticles();});
-    Route::get('/reg', function (){return file_get_contents("reg.php");});
+    Route::get('/reg', function (){return file_get_contents("reg.php");}, "Регистрация");
     Route::get('/login', function (){return file_get_contents('login.php');});
     Route::get('/article/{id}', function (){return file_get_contents('article.html');});
     Route::get("/getUsers", function (){UserController::getUsers();});
