@@ -4,12 +4,25 @@
     <p class="my-3">Автор: <span id="author"></span></p>
     <p><a href="" id="deleteBtn" class="btn btn-danger">удалить</a></p>
 </div>
+<div class="container">
+    <h4>Коментарии</h4>
+    <form action="/addComment" onsubmit="saveComment(); return false;">
+        <div class="mb-3">
+            <textarea id="commentTextArea" name="" class="form-control" placeholder="Комментарий"></textarea>
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="Добавить комментарий">
+        </div>
+    </form>
+</div>
 <script>
+    let commentTextArea = document.getElementById('commentTextArea');
     let articleId = location.pathname.split('/')[2]; // Получаем id статьи из URL
     let title = document.getElementById("title"); //
     let content = document.getElementById('content');
     let author = document.getElementById('author');
     let deleteBtn = document.getElementById('deleteBtn');
+    let userId;
     let formData = new FormData();
     // Мы будем передавать ключ articleId со значение articleId = location.pathname.split('/')[2];
     formData.append("articleId", articleId);
@@ -24,4 +37,24 @@
            author.innerText = result.author;
            deleteBtn.href = "/deleteArticle/"+result.id;
         });
+
+    fetch('/getUserData')
+        .then(function (response){return response.json()})
+        .then(function (result){
+            userId = result.id; // ID Пользователя
+        });
+    function saveComment(){
+        let formData = new FormData();
+        formData.append("comment", commentTextArea.value);
+        formData.append('userId', userId);
+        formData.append('articleId', articleId);
+        fetch('/addComment', {
+            method: "POST",
+            body: formData
+        }).then(response=>response.json())
+            .then(result=>{
+                alert("Комментарий добавлен");
+                console.log(result);
+            })
+    }
 </script>

@@ -10,12 +10,12 @@ class UserController{
                 $_SESSION['name'] = $row['name'];
                 $_SESSION['lastname'] = $row['lastname'];
                 $_SESSION['email'] = $row['email'];
-                header("Location: /profile.php");
+                header("Location: /profile");
             }else{
-                header("Location: /login.php?m=error");
+                header("Location: /login");
             }
         }else{
-            header("Location: /login.php?m=error");
+            header("Location: /login");
         }
     }
 

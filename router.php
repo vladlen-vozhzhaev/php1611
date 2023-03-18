@@ -12,9 +12,9 @@
     require_once('php/classes/Route.php');
     require_once('php/classes/simple_html_dom.php');
 
-    Route::get('/', function (){return ArticleController::getArticles();});
+    Route::get('/', function (){return ArticleController::getArticles();}, "Добро пожаловать");
     Route::get('/reg', function (){return file_get_contents("reg.php");}, "Регистрация");
-    Route::get('/login', function (){return file_get_contents('login.php');});
+    Route::get('/login', function (){return file_get_contents('login.php');}, "Авторизация");
     Route::get('/article/{id}', function (){return file_get_contents('article.html');});
     Route::get("/getUsers", function (){UserController::getUsers();});
     Route::get('/users', function (){return file_get_contents('users.html');});
@@ -32,6 +32,7 @@
         Route::post('/addArticle', function (){ArticleController::addArticle($_POST['title'], $_POST['content'], $_POST['author']);});
         Route::post('/updateArticle', function (){ArticleController::updateArticle($_POST['id'], $_POST['title'], $_POST['content'], $_POST['author']);});
         Route::post('/uploadAvatar', function (){UserController::uploadAvatar();});
+        Route::post('/addComment', function (){echo ArticleController::saveComment();});
     }else{
         header('Location: /login');
     }

@@ -65,4 +65,12 @@ class ArticleController{
         $mysqli->query("UPDATE articles SET title='$title',content='$content',author='$author' WHERE id=$articleId");
         header("Location: /article/$articleId");
     }
+    public static function saveComment(){
+        global $mysqli;
+        $userId = $_POST['userId'];
+        $articleId = $_POST['articleId'];
+        $comment = $_POST['comment'];
+        $mysqli->query("INSERT INTO `comments`(`user_id`, `article_id`, `comment`) VALUES ('$userId', '$articleId', '$comment')");
+        return json_encode(["result"=>"success"]);
+    }
 }
