@@ -10,10 +10,13 @@
         <div class="mb-3">
             <textarea id="commentTextArea" name="" class="form-control" placeholder="Комментарий"></textarea>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" id="commentSubmitDiv">
             <input type="submit" class="btn btn-primary" value="Добавить комментарий">
         </div>
     </form>
+</div>
+<div class="container" id="commentsDiv">
+
 </div>
 <script>
     let commentTextArea = document.getElementById('commentTextArea');
@@ -22,6 +25,8 @@
     let content = document.getElementById('content');
     let author = document.getElementById('author');
     let deleteBtn = document.getElementById('deleteBtn');
+    let commentSubmitDiv = document.getElementById("commentSubmitDiv");
+    let commentsDiv = document.getElementById("commentsDiv");
     let userId;
     let formData = new FormData();
     // Мы будем передавать ключ articleId со значение articleId = location.pathname.split('/')[2];
@@ -41,8 +46,33 @@
     fetch('/getUserData')
         .then(function (response){return response.json()})
         .then(function (result){
-            userId = result.id; // ID Пользователя
+            if(result.result == "error"){
+                commentSubmitDiv.innerHTML = `
+                    <p>
+                        Для добавления комментария необходимо
+                        <a href="/login">войти</a> или
+                        <a href="/reg">зарегистрироваться</a> на сайте
+                    </p>
+                `;
+            }else{
+                userId = result.id; // ID Пользователя
+            }
         });
+    fetch('/getComment/'+articleId)
+        .then(response=>response.json())
+        .then(result=>{
+            for (let i=0; i<result.length; i++){
+                let comment = result[i];
+                commentsDiv.innerHTML += `
+                    <div class="card text-bg-light mb-3 w-100">
+                      <div class="card-header">${comment.name} ${comment.lastname}</div>
+                      <div class="card-body">
+                        <p class="card-text mt-0">${comment.comment}</p>
+                      </div>
+                    </div>`;
+            }
+            console.log(result);
+        })
     function saveComment(){
         let formData = new FormData();
         formData.append("comment", commentTextArea.value);
@@ -53,7 +83,7 @@
             body: formData
         }).then(response=>response.json())
             .then(result=>{
-                alert("Комментарий добавлен");
+                location.reload();
                 console.log(result);
             })
     }

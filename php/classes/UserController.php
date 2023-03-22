@@ -32,13 +32,19 @@ class UserController{
     }
 
     public static function getUserData(){
-        // Array
-        $userData = [
-            'id'=>$_SESSION['id'],
-            'name'=>$_SESSION['name'],
-            'lastname'=>$_SESSION['lastname'],
-            'email'=>$_SESSION['email']
-        ];
+        // если существует ключ "id" в массиве $_SESSION, тогда формируем массив
+        if(array_key_exists("id", $_SESSION)){
+            // Array
+            $userData = [
+                'id'=>$_SESSION['id'],
+                'name'=>$_SESSION['name'],
+                'lastname'=>$_SESSION['lastname'],
+                'email'=>$_SESSION['email']
+            ];
+        }else{ // иначе отправляем ошибку в формате JSON
+            // Показываем на экране данные в формате JSON
+            exit(json_encode(['result'=>'error']));
+        }
         // Преобразуем Array в JSON
         $jsonUserData = json_encode($userData);
         // Показываем на экране данные в формате JSON

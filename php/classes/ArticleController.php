@@ -73,4 +73,13 @@ class ArticleController{
         $mysqli->query("INSERT INTO `comments`(`user_id`, `article_id`, `comment`) VALUES ('$userId', '$articleId', '$comment')");
         return json_encode(["result"=>"success"]);
     }
+    public static function getCommentsByArticleId($articleId){
+        global $mysqli;
+        $result = $mysqli->query("SELECT * FROM comments, users WHERE article_id = '$articleId' AND comments.user_id = users.id");
+        $comments = [];
+        while (($row = $result->fetch_assoc()) != null){
+            $comments[] = $row;
+        }
+        exit(json_encode($comments));
+    }
 }
